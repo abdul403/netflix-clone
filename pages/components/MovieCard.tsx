@@ -1,23 +1,24 @@
-import useInfoModal from "@/hooks/useInfoModal";
-import { useRouter } from "next/router";
-
 import React, { useCallback } from "react";
-import FavoriteButton from "./FavoritesButton";
 import { BiChevronDown } from "react-icons/bi";
+import { useRouter } from "next/router";
 import { PlayIcon } from "@heroicons/react/24/solid";
+import { MovieInterface } from "@/types";
+import useInfoModalStore from "@/hooks/useInfoModalStore";
+import FavoriteButton from "./FavoriteButton";
 
 interface MovieCardProps {
-  data: Record<string, any>;
+  data: MovieInterface;
 }
 
 const MovieCard: React.FC<MovieCardProps> = ({ data }) => {
   const router = useRouter();
-  const { openModal } = useInfoModal();
+  const { openModal } = useInfoModalStore();
 
   const redirectToWatch = useCallback(
-    () => router.push(`/watch/${data.id}`),
-    [router, data.id]
+    () => router.push(`/watch/${data?.id}`),
+    [router, data?.id]
   );
+
   return (
     <div className="group bg-zinc-900 col-span relative h-[12vw]">
       <img
