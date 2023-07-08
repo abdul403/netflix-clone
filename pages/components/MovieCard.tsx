@@ -1,9 +1,10 @@
 import useInfoModal from "@/hooks/useInfoModal";
 import { useRouter } from "next/router";
-import React from "react";
-import { BsFillPlayFill } from "react-icons/bs";
+
+import React, { useCallback } from "react";
 import FavoriteButton from "./FavoritesButton";
 import { BiChevronDown } from "react-icons/bi";
+import { PlayIcon } from "@heroicons/react/24/solid";
 
 interface MovieCardProps {
   data: Record<string, any>;
@@ -12,6 +13,11 @@ interface MovieCardProps {
 const MovieCard: React.FC<MovieCardProps> = ({ data }) => {
   const router = useRouter();
   const { openModal } = useInfoModal();
+
+  const redirectToWatch = useCallback(
+    () => router.push(`/watch/${data.id}`),
+    [router, data.id]
+  );
   return (
     <div className="group bg-zinc-900 col-span relative h-[12vw]">
       <img
@@ -28,7 +34,8 @@ const MovieCard: React.FC<MovieCardProps> = ({ data }) => {
       w-full
       h-[12vw]
       "
-        src={data.thumbnailUrl}
+        onClick={redirectToWatch}
+        src={data?.thumbnailUrl}
         alt="Thumbnail"
       />
       <div
@@ -51,8 +58,10 @@ const MovieCard: React.FC<MovieCardProps> = ({ data }) => {
           "
       >
         <img
-          src={data.thumbnailUrl}
+          onClick={redirectToWatch}
+          src={data?.thumbnailUrl}
           alt="Thumbnail"
+          draggable={false}
           className="
               cursor-pointer
               object-cover
@@ -93,11 +102,9 @@ const MovieCard: React.FC<MovieCardProps> = ({ data }) => {
                     transition
                   hover:bg-neutral-300
                   "
-              onClick={() => {
-                router.push(`/watch/${data?.id}`);
-              }}
+              onClick={redirectToWatch}
             >
-              <BsFillPlayFill size={30} />
+              <PlayIcon className="text-black w-4 lg:w-6" />
             </div>
             <FavoriteButton movieId={data?.id} />
             <div
@@ -133,11 +140,13 @@ const MovieCard: React.FC<MovieCardProps> = ({ data }) => {
             New <span className="text-white ">2023</span>
           </p>
           <div className="flex flex-row mt-4 gap-2 items-center">
-            <p className="text-white text-[10px] lg:text-sm">{data.duration}</p>
+            <p className="text-white text-[10px] lg:text-sm">
+              {data?.duration}
+            </p>
           </div>
 
           <div className="flex flex-row mt-4 gap-2 items-center">
-            <p className="text-white text-[10px] lg:text-sm">{data.genre}</p>
+            <p className="text-white text-[10px] lg:text-sm">{data?.genre}</p>
           </div>
         </div>
       </div>
