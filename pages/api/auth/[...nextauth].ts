@@ -8,6 +8,7 @@ import GoogleProviders from "next-auth/providers/google";
 import GitHubProviders from "next-auth/providers/github";
 
 export const authOptions: AuthOptions = {
+  adapter: PrismaAdapter(prismadb),
   providers: [
     Credentials({
       id: "credentials",
@@ -58,11 +59,8 @@ export const authOptions: AuthOptions = {
       clientSecret: process.env.GITHUB_SECRET || "",
     }),
   ],
-  pages: {
-    signIn: "/auth",
-  },
+
   debug: process.env.NODE_ENV !== "production",
-  adapter: PrismaAdapter(prismadb),
   session: {
     strategy: "jwt",
   },
