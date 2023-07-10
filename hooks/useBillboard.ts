@@ -3,12 +3,12 @@ import useSWR from "swr";
 import fetcher from "@/lib/fetcher";
 
 const useBillboard = () => {
-  const { data, isLoading, error } = useSWR("/api/random", fetcher);
+  const { data, error, isLoading } = useSWR("/api/random", fetcher);
 
   return {
     data,
-    isLoading,
     error,
+    isLoading,
   };
 };
 
